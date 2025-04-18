@@ -1,2 +1,10 @@
-# mrt_map
-first project wip
+# Traingo
+
+## Installations
+
+### Poetry
+
+To add a package:
+```
+poetry add <package>
+```
