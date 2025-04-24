@@ -2,17 +2,18 @@
 
 1. create a git hub repo for the project
 2. find a way to map the mrt map in code
+- enum (diff py file), linked list, graph
 
-## For Enum method, you can initalise a enum by using:
+a) For Enum method, you can initalise a enum by using:
 
 import Enum
 class Season(Enum):
-    Pasir_ris = EW1
+    Pasir_ris = EW1 
     Tampines = EW2
     .....
-    
+! define in caps
 
-## for enums, useful functions include:
+! for enums, useful functions include:
 
 Use enums if theres a fixed set of options (eg: on/off)
 
@@ -60,13 +61,6 @@ else:
 
 
 
-
-
-
-- enum (diff py file), linked list, graph
-
-
-
 Attempt at using enum to create the library:
 
 ​	1. add all stations as enums into the programme
@@ -79,11 +73,11 @@ eg:
 
 class Station(stations):
 
-​	pasir_ris: station = station.EW1
+​	pasir_ris: str = "station.EW1"
 
-​	tampines: station = station.EW1 | station.DT32
+​	tampines: str = "station.EW1" | "station.DT32"
 
-​	paya_lebar: station = station.EW8 | station.CC9
+​	paya_lebar: str = "station.EW8" | "station.CC9"
 
 ​	
 
@@ -95,9 +89,24 @@ class Station(stations):
 
 3. save the timings between each mrt station
 - doable with step 2
+
 4. accept user inputs 
+
+user inputs will be of two stations, first station being the initial location and the second station being the final location
+
 - rest api, postman for testing
 5. attempt to find the fastest way from inputted station to said station
 - topological sort, dijkstra algorithm
+
+after the programme, it shd be able to output the following:
+1) the shortest amount of time needed
+2) the route that the user shd take in order to reach the location
+3) interchanges if there is changes of lines
+
 6. if possible make it into a telegram bot
 - research online 
+
+7. Extras
+- timings to interchange between the lines shd be done once the library is able to store all the travel timings
+- output the second fastest timing and route
+- include LRT stations (currently no data on lrt travel timings)
