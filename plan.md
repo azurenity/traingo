@@ -96,6 +96,7 @@ user inputs will be of two stations, first station being the initial location an
 
 - rest api, postman for testing
 5. attempt to find the fastest way from inputted station to said station
+- minimum spanning tree
 - topological sort, dijkstra algorithm
 
 after the programme, it shd be able to output the following:
