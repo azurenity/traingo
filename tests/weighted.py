@@ -3,7 +3,8 @@
 # Creates an adjacency list with each vertex
 # Records down the edge with the weight inside the adjacency list of the vertex
 # Able to create undirected edges with the vertices inside the graph
-import heapq
+from queue import PriorityQueue 
+import math
 
 class WeightedGraph():
 
@@ -25,19 +26,43 @@ class WeightedGraph():
     def getVertices(self):
         return self.adjacency_list
     
-    def Dijkstra_Algo(WeightedGraph, Vertex):
-        distance = [inf] * len(g.getVertices())
+    def Dijkstra_Algo(self, source):
+        distance = [math.inf] * len(g.getVertices())
+        visited_edge = []
+        distance[source] = 0
 
-        placeholder = []
-        heapq.heapify(placeholder)
-        
+        placeholder = PriorityQueue() # for python, you need to enter the comparator at the front of the tuple, i.e (priority, value)
+        # format for the items in the graph will be time, source, destination
+        placeholder.put((0, source, source))
+
+        while placeholder.qsize != 0: # loop until the queue is gone
+            currentEdge = placeholder.get() # when you poll, the edge is in the format (time,source,destination)  ----> first 
+
+            # for each of the edge, get the weight and find if the weight to the destination is lower than found
+            destination = currentEdge[2] # extract the third element, the destination
+            src = currentEdge[1]
+            print(destination)
+            if distance[destination] > (distance[src] + currentEdge[0]):
+                distance[destination] = (distance[src] + currentEdge[0])
+            
+            for values in g.getVertices()[destination]: # in the format of src, dest, time
+                if (values[2], values[0], values[1]) not in visited_edge:
+                    visited_edge.append((values[2], values[0], values[1]))
+                    placeholder.put((values[2], values[0], values[1]))
+                    print(distance)
 
     
+        return distance
+
+
 g = WeightedGraph(5)
+g.addUndirectedEdge(0,1,2)
 g.addUndirectedEdge(1,4,6)
 g.addUndirectedEdge(2,4,3)
 g.addUndirectedEdge(1,3,2)
 print(g.getVertices()) 
+print(g.Dijkstra_Algo(0))
+
 
 
 # can add deletion of edges as well if possible

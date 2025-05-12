@@ -82,9 +82,11 @@ class Station(stations):
 ​	
 
 
+for each station has the following:
 
-
-
+Station number/ name
+places it can go to
+time it takes for each place
 
 
 3. save the timings between each mrt station
