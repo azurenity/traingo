@@ -1,7 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass
-from typing import List, Tuple, Dict
-import re
+from typing import List
+
 
 @dataclass(frozen=True)
 class TravelInfo:
@@ -10,15 +10,15 @@ class TravelInfo:
 
 @dataclass(frozen=True)
 class StationInfo:
-    codes: List[str]       # One or more station codes, e.g. ["EW2", "DT32"]
+    codes: List[str]
     name: str
     travel: List[TravelInfo]
 
 class Station(Enum):
 
     JURONG_EAST = StationInfo(
-        codes=["NS1", "EW24"],
-        name="Jurong East",
+        codes= ["NS1", "EW24"],
+        name= "Jurong East",
         travel=[
             TravelInfo("BUKIT_BATOK", 2), 
             TravelInfo("CLEMENTI", 2), 
@@ -933,19 +933,6 @@ class Station(Enum):
         name="Bayshore",
         travel=[TravelInfo("SIGLAP", 2)]
     )
-   
-# Access station name
-print(Station.PASIR_RIS.value.name)  # Output: Pasir Ris
-
-# Access code
-print(Station.PASIR_RIS.value.codes)  # Output: EW1
-
-# Print travel destinations and times
-for travel in Station.PASIR_RIS.value.travel:
-    print(f"To {Station[travel.destination].value.name} in {travel.time} mins")
-
-
-
 
 
 # To start instantiating things:
@@ -975,11 +962,6 @@ def get_codes_by_station_name(name):
         if station.value.name.lower() == name.lower():
             return station.value.codes
     return None
-    
-# Example usage
-if __name__ == "__main__":
-    print(get_station_name_by_code("DT32"))  # input: any station code / Output: station name
-    print(get_codes_by_station_name("changi airport"))  # User input: any station name / Output: station code
 
 def build_adjacency_dict():
     graph = {}
@@ -999,7 +981,5 @@ def build_adjacency_dict():
         graph[station] = list(graph[station])
     return graph
 
-if __name__ == "__main__":
-    adj_dict = build_adjacency_dict()
-    # Example: see all neighbours of CASHEW
-    print("Neighbours of BUKIT_GOMBAK:", adj_dict["BUKIT_GOMBAK"])
+
+    

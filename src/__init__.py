@@ -5,6 +5,23 @@
 # Able to create undirected edges with the vertices inside the graph
 from queue import PriorityQueue 
 import math
+from maps.map import Station, build_adjacency_dict, get_station_name_by_code, get_codes_by_station_name
+
+if __name__ == "__main__":
+    adj_dict = build_adjacency_dict()
+    print("Neighbours of BUKIT_GOMBAK:", adj_dict["BUKIT_GOMBAK"])
+    print(get_station_name_by_code("DT32"))  # input: any station code / Output: station name
+    print(get_codes_by_station_name("changi airport"))  # User input: any station name / Output: station code
+
+# Access station name
+print(Station.PASIR_RIS.value.name)  # Output: Pasir Ris
+
+# Access code
+print(Station.PASIR_RIS.value.codes)  # Output: EW1
+
+# Print travel destinations and times
+for travel in Station.PASIR_RIS.value.travel:
+    print(f"To {Station[travel.destination].value.name} in {travel.time} mins")
 
 class WeightedGraph():
 
@@ -83,8 +100,3 @@ bii) if the next point has been visited, if the new distance is shorter than the
 c) add the edges of the destination to the heapq
 d) run the loop until the heapq is empty
 """
-
-
-        
-
-
