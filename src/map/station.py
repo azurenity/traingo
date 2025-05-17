@@ -557,10 +557,11 @@ def get_station_name_by_code(code):
     Return the station name corresponding to a given station code.
     If not found, returns None.
     """
-    for station in Station:
-        if code in station.value.codes:
-            return station.value.name
-    return None
+    for subclasses in Station.__subclasses__():
+        for member in subclasses:
+            if code in str(member):
+                return member.value.name
+    return "Please give a correct Station code"
 
 
 def get_codes_by_station_name(name):
@@ -568,10 +569,16 @@ def get_codes_by_station_name(name):
     Return the list of codes corresponding to a given station name.
     If not found, returns None.
     """
-    for station in Station:
-        if station.value.name.lower() == name.lower():
-            return station.value.codes
-    return None
+    for subclasses in Station.__subclasses__():
+        for member in subclasses:
+            if member.value.name.lower() == name.lower():
+                temp = f'{member}'
+                if len(temp) == 14:
+                    temp = temp[10:]
+                if len(temp) == 13:
+                    temp = temp[9:]
+                return temp
+    return "Please give a correct Station name"
 
 def get_line(station_name):
     Flag = True
@@ -618,4 +625,6 @@ if __name__ == "__main__":
         for member in subclasses:                          
             print(member.value) # this will iterate through the station infos. We can then access the travel info from this 
     print(get_line("Dhoby GHAut"))
+    print(get_codes_by_station_name("Dhoby GHAut"))
+    print(get_station_name_by_code("NS24"))
     
