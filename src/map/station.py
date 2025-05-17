@@ -1,6 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass
-from typing import List, Tuple, Dict
+from typing import List
 
 @dataclass(frozen=True)
 class TravelInfo:
@@ -551,10 +551,6 @@ print(EWStation.EW1.value.name)  # Output: Pasir Ris
 for travel in EWStation.EW1.value.travel:
     print(f"To {EWStation[travel.destination].value.name} in {travel.time} mins")
 
-for subclasses in Station.__subclasses__():  # iterates thru the subclasses
-    for member in subclasses:                          
-        print(member.value) # this will iterate through the station infos. We can then access the travel info from this 
-
 
 def get_station_name_by_code(code):
     """
@@ -576,11 +572,26 @@ def get_codes_by_station_name(name):
         if station.value.name.lower() == name.lower():
             return station.value.codes
     return None
+
+def get_line(station_name):
+    Flag = True
+    temp = []
+    for subclasses in Station.__subclasses__():
+        for member in subclasses:
+            if member.value.name.lower() == station_name.lower():
+                Flag = False
+                ture = member.value.name
+                temp.append(f'{member}')
+
+    if Flag:
+        return "Please give a correct Station name"
+    for name in range(len(temp)):
+        temp[name] = temp[name][:2] + "L"
+        
+    myorder = "{name} belongs to the following lines: {line}"
+        
+    return myorder.format(name = ture, line = ','.join(temp))
     
-# Example usage
-if __name__ == "__main__":
-    print(get_station_name_by_code("DT32"))  # input: any station code / Output: station name
-    print(get_codes_by_station_name("changi airport"))  # User input: any station name / Output: station code
 
 def build_adjacency_dict():
     graph = {}
@@ -600,7 +611,11 @@ def build_adjacency_dict():
         graph[station] = list(graph[station])
     return graph
 
+
+
 if __name__ == "__main__":
-    adj_dict = build_adjacency_dict()
-    # Example: see all neighbours of CASHEW
-    print("Neighbours of BUKIT_GOMBAK:", adj_dict["BUKIT_GOMBAK"])
+    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
+        for member in subclasses:                          
+            print(member.value) # this will iterate through the station infos. We can then access the travel info from this 
+    print(get_line("Dhoby GHAut"))
+    
