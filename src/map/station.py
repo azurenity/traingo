@@ -175,7 +175,8 @@ class EWStation(Station):
     EW33 = StationInfo(name="Tuas Link",
         travel=[TravelInfo("EW32", 2)]
     )
-    CG1 = StationInfo(name="Expo", travel=[TravelInfo("EW4", 2), TravelInfo("CG2", 6), TravelInfo("CG1", 3)])
+    CG = StationInfo(name="Tanah Merah", travel=[TravelInfo("EW4", 2), TravelInfo("CG1", 3) ])
+    CG1 = StationInfo(name="Expo", travel=[TravelInfo("CG2", 6), TravelInfo("CG", 3), TravelInfo("DT35", 3)])
     CG2 = StationInfo(name="Changi Airport", travel=[TravelInfo("CG1", 6)])
 class NSStation(Station):
     NS1 = StationInfo(
@@ -462,7 +463,6 @@ class DTStation(Station):
     DT29 = StationInfo(name="Bedok North",      travel=[TravelInfo("DT28", 2), TravelInfo("DT30", 2)])
     DT30 = StationInfo(name="Bedok Reservoir",  travel=[TravelInfo("DT29", 2), TravelInfo("DT31", 2)])
     DT31 = StationInfo(name="Tampines West",    travel=[TravelInfo("DT30", 2), TravelInfo("DT32", 2)])
-
     DT32 = StationInfo(
         name="Tampines",
         travel=[
