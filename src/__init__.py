@@ -5,7 +5,7 @@
 # Able to create undirected edges with the vertices inside the graph
 from queue import PriorityQueue 
 import math
-from maps.map import Station, build_adjacency_dict, get_station_name_by_code, get_codes_by_station_name
+from map.station import Station, build_adjacency_dict, get_station_name_by_code, get_codes_by_station_name
 
 if __name__ == "__main__":
     adj_dict = build_adjacency_dict()
