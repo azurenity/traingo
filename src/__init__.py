@@ -5,80 +5,42 @@
 # Able to create undirected edges with the vertices inside the graph
 from queue import PriorityQueue 
 import math
-from map.station import Station, build_adjacency_dict, get_station_name_by_code, get_codes_by_station_name
+from map.station import Station, build_adjacency_dict, get_station_name_by_code, get_codes_by_station_name, get_line
 
 if __name__ == "__main__":
     adj_dict = build_adjacency_dict()
-    print("Neighbours of BUKIT_GOMBAK:", adj_dict["BUKIT_GOMBAK"])
+    print("Neighbours of BAYSHORE:", adj_dict["TE29"])
     print(get_station_name_by_code("DT32"))  # input: any station code / Output: station name
-    print(get_codes_by_station_name("changi airport"))  # User input: any station name / Output: station code
-
-# Access station name
-print(Station.PASIR_RIS.value.name)  # Output: Pasir Ris
-
-# Access code
-print(Station.PASIR_RIS.value.codes)  # Output: EW1
-
-# Print travel destinations and times
-for travel in Station.PASIR_RIS.value.travel:
-    print(f"To {Station[travel.destination].value.name} in {travel.time} mins")
-
-class WeightedGraph():
-
-    def __init__(self, vertices):
-        self.vertices = vertices       
-        self.adjacency_list = [[] for _ in range(vertices)]  # creates a empty list for each vertex
-
-    def addUndirectedEdge(self, source, destination, weight):
-        front = [source, destination, weight] # Adds the edge in one direction
-        self.adjacency_list[source].append(front)
-
-    def addUndirectedEdge(self, source, destination, weight):
-        front = [source, destination, weight]
-        back = [destination, source, weight]
-
-        self.adjacency_list[source].append(front)
-        self.adjacency_list[destination].append(back)
-
-    def getVertices(self):
-        return self.adjacency_list
+    print(get_codes_by_station_name("expo"))  # User input: any station name / Output: station code
     
-    def Dijkstra_Algo(self, source):
-        distance = [math.inf] * len(g.getVertices())
-        visited_edge = []
-        distance[source] = 0
+def Dijkstra_Algo(source):
+    distance = [math.inf] * len(adj_dict)
+    visited_edge = []
+    distance[source] = 0
 
-        placeholder = PriorityQueue() # for python, you need to enter the comparator at the front of the tuple, i.e (priority, value)
-        # format for the items in the graph will be time, source, destination
-        placeholder.put((0, source, source))
+    placeholder = PriorityQueue() # for python, you need to enter the comparator at the front of the tuple, i.e (priority, value)  -----> stations value are stored in (dst, time)
+    # format for the items in the Heapq will be time, source, destination
+    placeholder.put((0, source, source))
 
-        while placeholder.qsize != 0: # loop until the queue is gone
-            currentEdge = placeholder.get() # when you poll, the edge is in the format (time,source,destination)  ----> first 
+    while placeholder.qsize != 0: # loop until the queue is gone
+        currentEdge = placeholder.get() # when you poll, the edge is in the format (time,source,destination)  ----> first 
 
-            # for each of the edge, get the weight and find if the weight to the destination is lower than found
-            destination = currentEdge[2] # extract the third element, the destination
-            src = currentEdge[1]
-            print(destination)
-            if distance[destination] > (distance[src] + currentEdge[0]):
-                distance[destination] = (distance[src] + currentEdge[0])
-            
-            for values in g.getVertices()[destination]: # in the format of src, dest, time
-                if (values[2], values[0], values[1]) not in visited_edge:
-                    visited_edge.append((values[2], values[0], values[1]))
-                    placeholder.put((values[2], values[0], values[1]))
-                    print(distance)
+        # for each of the edge, get the weight and find if the weight to the destination is lower than found
+        destination = currentEdge[2] # extract the third element, the destination
+        src = currentEdge[1]
+        print(destination)
+        if distance[destination] > (distance[src] + currentEdge[0]):
+            distance[destination] = (distance[src] + currentEdge[0])
+        
+        for values in getVertices()[destination]: # in the format of src, dest, time
+            if (values[2], values[0], values[1]) not in visited_edge:
+                visited_edge.append((values[2], values[0], values[1]))
+                placeholder.put((values[2], values[0], values[1]))
+                print(distance)
 
-    
-        return distance
+    return distance # programme returns the distance of ALL stations from that source station
 
-
-g = WeightedGraph(5)
-g.addUndirectedEdge(0,1,2)
-g.addUndirectedEdge(1,4,6)
-g.addUndirectedEdge(2,4,3)
-g.addUndirectedEdge(1,3,2)
-print(g.getVertices()) 
-print(g.Dijkstra_Algo(0))
+print(Dijkstra_Algo(0))
 
 
 

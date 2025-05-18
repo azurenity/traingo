@@ -597,7 +597,6 @@ def get_line(station_name):
         temp[name] = temp[name][:2] + "L" 
         
     return f"{ture} belongs to the following lines: {', '.join(temp)}" 
-    
 
 def build_adjacency_dict():
     graph = {}
@@ -614,8 +613,6 @@ def build_adjacency_dict():
         for member in subclasses: 
             graph[member.name] = list(graph[member.name]) # converts the elements in the graph back into lists for better accessibility for the algo
     return graph
-
-
 
 if __name__ == "__main__":
     print(build_adjacency_dict())
