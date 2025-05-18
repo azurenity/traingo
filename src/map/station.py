@@ -588,42 +588,36 @@ def get_line(station_name):
             if member.value.name.lower() == station_name.lower():
                 Flag = False
                 ture = member.value.name
-                temp.append(f'{member}')
+                temp.append(f'{member.name}')
 
     if Flag:
         return "Please give a correct Station name"
     for name in range(len(temp)):
-        temp[name] = temp[name][:2] + "L"
+        temp[name] = temp[name][:2] + "L" 
         
-    myorder = "{name} belongs to the following lines: {line}"
-        
-    return myorder.format(name = ture, line = ','.join(temp))
+    return f"{ture} belongs to the following lines: {','.join(temp)}" 
     
 
 def build_adjacency_dict():
     graph = {}
-    for station in Station:
-        src = station.name
-        # Ensure every station appears in the graph
-        graph.setdefault(src, set()) # adds an empty set if it is not inside the dict 
-        for travel in station.value.travel:
-            dst, t = travel.destination, travel.time
-            # Add neighbor for src
-            graph[src].add((dst, t))
-            # Add reverse neighbor for dst
-            graph.setdefault(dst, set()) 
-            graph[dst].add((src, t))
-    # Convert sets back to lists if needed
-    for station in graph:
-        graph[station] = list(graph[station])
+    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
+        for member in subclasses: # iterates thru the stations in the subclasses           
+            graph.setdefault(member.name, set()) # adds an empty set if it is not inside the dict 
+            for travel in member.value.travel: # accesses the travel info of the stations
+                dst, t = travel.destination, travel.time # takes the destination, time
+                graph[member.name].add((dst, t))
+                graph.setdefault(dst, set())  # adds the an empty set when its not inside the dict for the dst
+                graph[dst].add((member.name, t)) # Add reverse neighbor for dst
+                
+    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
+        for member in subclasses: 
+            graph[member.name] = list(graph[member.name]) # converts the elements in the graph back into lists for better accessibility for the algo
     return graph
 
 
 
 if __name__ == "__main__":
-    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
-        for member in subclasses:                          
-            print(member.value) # this will iterate through the station infos. We can then access the travel info from this 
+    print(build_adjacency_dict())
     print(get_line("Dhoby GHAut"))
     print(get_codes_by_station_name("Dhoby GHAut"))
     print(get_station_name_by_code("NS24"))
