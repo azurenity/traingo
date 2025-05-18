@@ -569,17 +569,18 @@ def get_codes_by_station_name(name):
     Return the list of codes corresponding to a given station name.
     If not found, returns None.
     """
+    temp = []
     for subclasses in Station.__subclasses__():
         for member in subclasses:
             if member.value.name.lower() == name.lower():
-                temp = f'{member}'
-                if len(temp) == 14:
-                    temp = temp[10:]
-                if len(temp) == 13:
-                    temp = temp[9:]
-                return temp
-    return "Please give a correct Station name"
-
+                temp.append(member.name)
+                print(temp)
+                
+    if temp == []:
+        return "Please give a correct Station name"
+    else:
+        return ', '.join(temp)
+    
 def get_line(station_name):
     Flag = True
     temp = []
@@ -595,7 +596,7 @@ def get_line(station_name):
     for name in range(len(temp)):
         temp[name] = temp[name][:2] + "L" 
         
-    return f"{ture} belongs to the following lines: {','.join(temp)}" 
+    return f"{ture} belongs to the following lines: {', '.join(temp)}" 
     
 
 def build_adjacency_dict():
