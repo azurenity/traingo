@@ -1,5 +1,1 @@
-def main():
-  print("This is the main method of the APIs module.")
-
-if __name__ == "__main__":
-  main()
+# This file intentionally left blank to mark the 'apis' directory as a Python package.
