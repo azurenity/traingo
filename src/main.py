@@ -1,19 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return "Welcome to the Traingo Flask App!"
-
-@app.route("/api/v1/status", methods=['GET'])
-def api_status():
-    """A simple API endpoint to check the status."""
-    return jsonify(status="OK", message="Traingo API is running!")
-
-# You can add more API endpoints here, for example:
-# from .apis import some_api_blueprint # If you structure APIs in blueprints
-# app.register_blueprint(some_api_blueprint, url_prefix='/api/v1/some_feature')
+from .apis.status_api import status_bp
+app.register_blueprint(status_bp)
 
 def main():
     """This function can be used if you want to run any setup before starting Flask.

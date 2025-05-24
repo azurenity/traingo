@@ -13,4 +13,4 @@ echo "Starting Traingo Flask application from src/main.py..."
 # Run the Python Flask application
 # Ensure your virtual environment (if you use one, like .venv) is activated
 # or that python3 points to the correct interpreter with Flask installed.
-python src/main.py 
+python -m src.main 
