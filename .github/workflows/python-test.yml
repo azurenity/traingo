@@ -1,0 +1,23 @@
+name: Python Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13' # Assuming Python 3.13 based on pyproject.toml
+    - name: Install uv
+      run: pip install uv
+    - name: Install dependencies and pytest
+      run: |
+        uv pip install .
+        uv pip install pytest # Add pytest here
+    - name: Run tests
+      env:
+        PYTHONPATH: . # Add current directory to PYTHONPATH
+      run: pytest 
