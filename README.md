@@ -4,7 +4,19 @@
 
 ### Using UV
 
-To add a package:
+#### Getting Environment Ready
+
+Sync up the dependencies using this command:
+```
+uv sync
+```
+
+#### Running the Project
+```
+uv run main.py
+```
+
+#### Adding a Package
 ```
 uv add <package>
 ```
