@@ -10,14 +10,11 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.13' # Assuming Python 3.13 based on pyproject.toml
+        python-version: '3.13'
     - name: Install uv
       run: pip install uv
-    - name: Create virtual environment and install dependencies
-      run: |
-        uv venv # Create a virtual environment
-        uv pip install -e .[test] # Install project in editable mode with test extras
-    - name: Run tests
-      env:
-        PYTHONPATH: .
-      run: pytest 
+    - name: Make test script executable
+      run: chmod +x run_tests.sh
+    - name: Run tests using script
+      # The script now handles venv creation, dependency installation, PYTHONPATH, and running pytest.
+      run: ./run_tests.sh 
