@@ -1,15 +1,24 @@
 #!/bin/bash
-# Script to run pytest tests, ensuring src module is found.
+# Script to set up environment and run pytest tests using uv.
 
-echo "Setting PYTHONPATH to current directory and running tests..."
+echo "Ensuring virtual environment and test dependencies are set up..."
 
-# Export PYTHONPATH for the current shell session
+# Create virtual environment using uv if it doesn't exist
+if [ ! -d ".venv" ]; then
+  echo "Creating virtual environment with uv..."
+  uv venv
+fi
+
+echo "Installing/syncing project and test dependencies with uv..."
+# This will install the project in editable mode and its test dependencies (like pytest)
+# as defined in pyproject.toml [project.optional-dependencies.test]
+uv pip install -e .[test]
+
+echo "Setting PYTHONPATH to current directory..."
 export PYTHONPATH=.
 
-# Run pytest
-pytest
-
-# Optional: Unset PYTHONPATH if you want to clean up, though it's usually not necessary for a script
-# unset PYTHONPATH
+echo "Running tests with uv run pytest..."
+# uv run will execute pytest from the virtual environment managed by uv
+uv run pytest
 
 echo "Tests finished." 

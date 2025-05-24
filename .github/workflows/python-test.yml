@@ -13,11 +13,11 @@ jobs:
         python-version: '3.13' # Assuming Python 3.13 based on pyproject.toml
     - name: Install uv
       run: pip install uv
-    - name: Install dependencies and pytest
+    - name: Create virtual environment and install dependencies
       run: |
-        uv pip install .
-        uv pip install pytest # Add pytest here
+        uv venv # Create a virtual environment
+        uv pip install -e .[test] # Install project in editable mode with test extras
     - name: Run tests
       env:
-        PYTHONPATH: . # Add current directory to PYTHONPATH
+        PYTHONPATH: .
       run: pytest 
