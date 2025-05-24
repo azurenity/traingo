@@ -2,9 +2,9 @@
 
 ## Installations
 
-### Poetry
+### Using UV
 
 To add a package:
 ```
-poetry add <package>
+uv add <package>
 ```
