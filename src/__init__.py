@@ -13,34 +13,42 @@ if __name__ == "__main__":
     print(get_station_name_by_code("DT32"))  # input: any station code / Output: station name
     print(get_codes_by_station_name("expo"))  # User input: any station name / Output: station code
     
-def Dijkstra_Algo(source):
-    distance = [math.inf] * len(adj_dict)
+def MRT_travel_algo(source: str, end: str): # source will be the station code
+    distance = {}
+    routing = {}
+    # maybe change to distance dictionary ----> distance = {"DT1": (time), .....}
+    for subclasses in Station.__subclasses__():
+        for member in subclasses:
+            distance[member.name] = math.inf # creates a dictionary with ALL the station code with inf dist at the start
+
+    for subclasses in Station.__subclasses__():
+        for member in subclasses:
+            routing[member.name] = ""
+            
     visited_edge = []
-    distance[source] = 0
+    distance[source] = 0 
 
     placeholder = PriorityQueue() # for python, you need to enter the comparator at the front of the tuple, i.e (priority, value)  -----> stations value are stored in (dst, time)
     # format for the items in the Heapq will be time, source, destination
     placeholder.put((0, source, source))
 
-    while placeholder.qsize != 0: # loop until the queue is gone
-        currentEdge = placeholder.get() # when you poll, the edge is in the format (time,source,destination)  ----> first 
-
+    while placeholder.qsize() != 0: # loop until the queue is gone
+        currentEdge = placeholder.get() # when you poll, the edge is in the format (time,source,destination)  ----> first
         # for each of the edge, get the weight and find if the weight to the destination is lower than found
         destination = currentEdge[2] # extract the third element, the destination
         src = currentEdge[1]
-        print(destination)
         if distance[destination] > (distance[src] + currentEdge[0]):
-            distance[destination] = (distance[src] + currentEdge[0])
+            distance[destination] = (distance[src] + currentEdge[0]) # record new dis
+            routing[destination] = routing[src] + src
         
-        for values in getVertices()[destination]: # in the format of src, dest, time
-            if (values[2], values[0], values[1]) not in visited_edge:
-                visited_edge.append((values[2], values[0], values[1]))
-                placeholder.put((values[2], values[0], values[1]))
-                print(distance)
-
-    return distance # programme returns the distance of ALL stations from that source station
-
-print(Dijkstra_Algo(0))
+        for values in adj_dict[destination]: # access the tuples which are in the format of dest, time
+            if (values[1], destination, values[0]) not in visited_edge:
+                visited_edge.append((values[1], destination, values[0]))
+                placeholder.put((values[1], destination, values[0]))
+    print(routing[end])
+    return(distance[end])
+    
+print(MRT_travel_algo("DT32", "EW33"))
 
 
 

@@ -218,8 +218,8 @@ class NSStation(Station):
     NS22 = StationInfo(name="Orchard",                  travel=[TravelInfo("NS21", 2), TravelInfo("NS23", 2), TravelInfo("TE14", 4)])
     NS23 = StationInfo(name="Somerset",                 travel=[TravelInfo("NS22", 2), TravelInfo("NS24", 2)])
     NS24 = StationInfo(name="Dhoby Ghaut",             travel=[TravelInfo("NS23", 2), TravelInfo("NS25", 2), TravelInfo("NE6", 5), TravelInfo("CC1", 3)])
-    NS25 = StationInfo(name="City Hall",               travel=[TravelInfo("NS24", 2), TravelInfo("NS26", 2), TravelInfo("EW13", 2)])
-    NS26 = StationInfo(name="Raffles Place",           travel=[TravelInfo("NS25", 2), TravelInfo("NS27", 2), TravelInfo("EW14", 2)])
+    NS25 = StationInfo(name="City Hall",               travel=[TravelInfo("NS24", 2), TravelInfo("NS26", 2), TravelInfo("EW13", 1)])
+    NS26 = StationInfo(name="Raffles Place",           travel=[TravelInfo("NS25", 2), TravelInfo("NS27", 2), TravelInfo("EW14", 1)])
     NS27 = StationInfo(name="Marina Bay",              travel=[TravelInfo("NS26", 2), TravelInfo("NS28", 2), TravelInfo("TE20", 6), TravelInfo("CE2", 4)])
     NS28 = StationInfo(name="Marina South Pier",      travel=[TravelInfo("NS27", 2)])
 class CCStation(Station):
@@ -367,7 +367,7 @@ class NEStation(Station):
     NE18 = StationInfo(name="Punggol Coast",travel=[TravelInfo("NE17", 2)])
 
 class DTStation(Station):
-    DT1  = StationInfo(name="Bukit Panjang",    travel=[TravelInfo("DT2", 2)])
+    DT1  = StationInfo(name="Bukit Panjang",    travel=[TravelInfo("DT2", 2), TravelInfo("BP6", 5)])
     DT2  = StationInfo(name="Cashew",           travel=[TravelInfo("DT1", 2), TravelInfo("DT3", 2)])
     DT3  = StationInfo(name="Hillview",         travel=[TravelInfo("DT2", 2), TravelInfo("DT4", 2)])
     DT4  = StationInfo(name="Hume",             travel=[TravelInfo("DT3", 2), TravelInfo("DT5", 2)])
@@ -543,6 +543,21 @@ class TEStation(Station):
     TE27 = StationInfo(name="Marine Terrace",     travel=[TravelInfo("TE26", 2), TravelInfo("TE28", 2)])
     TE28 = StationInfo(name="Siglap",             travel=[TravelInfo("TE27", 2), TravelInfo("TE29", 2)])
     TE29 = StationInfo(name="Bayshore",           travel=[TravelInfo("TE28", 2)])
+    
+class BPStation(Station):
+    BP1  = StationInfo(name="Choa Chu Kang", travel=[TravelInfo("BP2", 2), TravelInfo("NS4", 2)])
+    BP2  = StationInfo(name="South View", travel=[TravelInfo("BP1", 2), TravelInfo("BP3", 2)])
+    BP3  = StationInfo(name="Keat Hong", travel=[TravelInfo("BP2", 2), TravelInfo("BP4", 2)])
+    BP4  = StationInfo(name="Teck Whye", travel=[TravelInfo("BP3", 2), TravelInfo("BP5", 2)])
+    BP5  = StationInfo(name="Phoenix", travel=[TravelInfo("BP4", 2), TravelInfo("BP6", 2)])
+    BP6  = StationInfo(name="Bukit Panjang", travel=[TravelInfo("BP5", 2), TravelInfo("BP7", 2), TravelInfo("BP13", 2), TravelInfo("DT1", 5)])
+    BP7  = StationInfo(name="Petir", travel=[TravelInfo("BP6", 2), TravelInfo("BP8", 2)])
+    BP8  = StationInfo(name="Pending", travel=[TravelInfo("BP7", 2), TravelInfo("BP9", 2)])
+    BP9  = StationInfo(name="Bangkit", travel=[TravelInfo("BP8", 2), TravelInfo("BP10", 2)])
+    BP10 = StationInfo(name="Fajar", travel=[TravelInfo("BP9", 2), TravelInfo("BP11", 2)])
+    BP11 = StationInfo(name="Segar", travel=[TravelInfo("BP10", 2), TravelInfo("BP12", 2)])
+    BP12 = StationInfo(name="Jelapang", travel=[TravelInfo("BP11", 2), TravelInfo("BP13", 2)])
+    BP13 = StationInfo(name="Senja", travel=[TravelInfo("BP12", 2), TravelInfo("BP6", 2)])
 
 # Access station name
 print(EWStation.EW1.value.name)  # Output: Pasir Ris
