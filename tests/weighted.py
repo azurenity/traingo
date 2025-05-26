@@ -55,8 +55,11 @@ class WeightedGraph():
         return distance
 
 
-g = WeightedGraph(5)
+g = WeightedGraph(8)
 g.addUndirectedEdge(0,1,2)
+g.addUndirectedEdge(7,2,10000)
+g.addUndirectedEdge(6,7,4)
+g.addUndirectedEdge(6,2,4)
 g.addUndirectedEdge(1,4,6)
 g.addUndirectedEdge(2,4,3)
 g.addUndirectedEdge(1,3,2)

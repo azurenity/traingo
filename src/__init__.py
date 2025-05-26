@@ -16,38 +16,32 @@ if __name__ == "__main__":
 def MRT_travel_algo(source: str, end: str): # source will be the station code
     distance = {}
     routing = {}
-    # maybe change to distance dictionary ----> distance = {"DT1": (time), .....}
+    
     for subclasses in Station.__subclasses__():
         for member in subclasses:
-            distance[member.name] = math.inf # creates a dictionary with ALL the station code with inf dist at the start
-
-    for subclasses in Station.__subclasses__():
-        for member in subclasses:
-            routing[member.name] = []
+            distance[member.name] = math.inf 
+            routing[member.name] = []      
             
-    visited_edge = []
+    visited_nodes = set()
     distance[source] = 0 
+    placeholder = PriorityQueue()
+    placeholder.put((0, source))  # format will be (current cost to arrive at the station, station)
 
-    placeholder = PriorityQueue() # for python, you need to enter the comparator at the front of the tuple, i.e (priority, value)  -----> stations value are stored in (dst, time)
-    # format for the items in the Heapq will be time, source, destination
-    placeholder.put((0, source, source))
+    while not placeholder.empty(): 
+        time, src = placeholder.get() # when you poll, the edge is in the format (time,source,destination)  ----> first
+        if src in visited_nodes: # skips the src stations that has a current cost higher than the first occurance (i.e least) 
+            continue
+        visited_nodes.add(src)
+        
+        for values in adj_dict[src]:
+            if (time + values[1]) < distance[values[0]]:
+                distance[values[0]] = (time + values[1])
+                routing[values[0]] = routing[src] + [src]
+                placeholder.put((time + values[1], values[0]))
 
-    while placeholder.qsize() != 0: # loop until the queue is gone
-        currentEdge = placeholder.get() # when you poll, the edge is in the format (time,source,destination)  ----> first
-        # for each of the edge, get the weight and find if the weight to the destination is lower than found
-        destination = currentEdge[2] # extract the third element, the destination
-        src = currentEdge[1]
-        if distance[destination] > (distance[src] + currentEdge[0]):
-            distance[destination] = (distance[src] + currentEdge[0]) # record new dis
-            routing[destination] = routing[src] + [src]
         
-        for values in adj_dict[destination]: # access the tuples which are in the format of dest, time
-            if (values[1], destination, values[0]) not in visited_edge:
-                visited_edge.append((values[1], destination, values[0]))
-                placeholder.put((values[1], destination, values[0]))
+    route = ' --> '.join(routing[end] + [end])  # so now, it returns the pathing in station codes
         
-        route = ' --> '.join(routing[end])  # so now, it returns the pathing in station codes
-                
     return(f'Time to reach the station is {distance[end]} minutes and the route to take is {route}')
     
 print(MRT_travel_algo("DT32", "EW33"))
