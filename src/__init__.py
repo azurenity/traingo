@@ -33,7 +33,7 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
             continue
         visited_nodes.add(src)
         
-        for values in adj_dict[src]:
+        for values in adj_dict[src]: # goes through the node's adjacency list to find out the distance between its neighbours
             if (time + values[1]) < distance[values[0]]:
                 distance[values[0]] = (time + values[1])
                 routing[values[0]] = routing[src] + [src]
@@ -48,21 +48,14 @@ print(MRT_travel_algo("DT32", "EW33"))
 
 
 
-# can add deletion of edges as well if possible
-# edit such that it can be done with stations
-
-
-# To create the Algo, you require the algo to do the following:
-
 """
-1. Take in a WeightedGraph and its starting vertex
-2. Create a distance from the starting vertex to all vertices and start it with all values being infinity (as large as possible)
-3. Add a dummy edge from the starting vertex to itself, causing it to have a weight of 0 to the heapq in order to start the algo
-4. Continue with a While loop where the following occurs:
-a) poll the heapq to pop the edge with the edge with the least weight
-b) Continue to the next point:
-bi) if the next point is not visited, update with the new distance
-bii) if the next point has been visited, if the new distance is shorter than the previously found, update the list
-c) add the edges of the destination to the heapq
-d) run the loop until the heapq is empty
+NEXT STEPS: 
+
+1. Output the route more nicely
+2. Consider using a database (SQL) for further learning
+3. Output potential train wait timings as they are not factored into the equation
+a) Consider peak and non peak timings
+4. Fix the LRT timings and also add in both LRT stations
+5. Way to take in a user input
+
 """
