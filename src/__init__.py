@@ -23,7 +23,7 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
 
     for subclasses in Station.__subclasses__():
         for member in subclasses:
-            routing[member.name] = ""
+            routing[member.name] = []
             
     visited_edge = []
     distance[source] = 0 
@@ -39,14 +39,16 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
         src = currentEdge[1]
         if distance[destination] > (distance[src] + currentEdge[0]):
             distance[destination] = (distance[src] + currentEdge[0]) # record new dis
-            routing[destination] = routing[src] + src
+            routing[destination] = routing[src] + [src]
         
         for values in adj_dict[destination]: # access the tuples which are in the format of dest, time
             if (values[1], destination, values[0]) not in visited_edge:
                 visited_edge.append((values[1], destination, values[0]))
                 placeholder.put((values[1], destination, values[0]))
-    print(routing[end])
-    return(distance[end])
+        
+        route = ' --> '.join(routing[end])  # so now, it returns the pathing in station codes
+                
+    return(f'Time to reach the station is {distance[end]} minutes and the route to take is {route}')
     
 print(MRT_travel_algo("DT32", "EW33"))
 
