@@ -45,17 +45,3 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
     return(f'Time to reach the station is {distance[end]} minutes and the route to take is {route}')
     
 print(MRT_travel_algo("DT32", "EW33"))
-
-
-
-"""
-NEXT STEPS: 
-
-1. Output the route more nicely
-2. Consider using a database (SQL) for further learning
-3. Output potential train wait timings as they are not factored into the equation
-a) Consider peak and non peak timings
-4. Fix the LRT timings and also add in both LRT stations
-5. Way to take in a user input
-
-"""
