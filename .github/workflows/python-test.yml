@@ -17,4 +17,4 @@ jobs:
       run: chmod +x run_tests.sh
     - name: Run tests using script
       # The script now handles venv creation, dependency installation, PYTHONPATH, and running pytest.
-      run: ./run_tests.sh 
+      run: ./run_tests.sh
