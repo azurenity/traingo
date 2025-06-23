@@ -888,12 +888,7 @@ class BPStation(Station):
     BP12 = StationInfo(name="Jelapang", travel=[TravelInfo("BP11", 2), TravelInfo("BP13", 2)])
     BP13 = StationInfo(name="Senja", travel=[TravelInfo("BP12", 2), TravelInfo("BP6", 2)])
 
-# Access station name
-print(EWStation.EW1.value.name)  # Output: Pasir Ris
 
-# Print travel destinations and times
-for travel in EWStation.EW1.value.travel:
-    print(f"To {EWStation[travel.destination].value.name} in {travel.time} mins")
 
 
 def get_station_name_by_code(code):
@@ -942,10 +937,30 @@ def get_line(station_name):
         
     return f"{ture} belongs to the following lines: {', '.join(temp)}" 
 
+def name_dict():
+    graph = {}
+    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
+        for member in subclasses: # iterates thru the stations in the subclasses
+            name = get_station_name_by_code(member.name)     
+            graph.setdefault(name, set()) # adds an empty set if it is not inside the dict 
+            for travel in member.value.travel: # accesses the travel info of the stations
+                dst, t = travel.destination, travel.time # takes the destination, time
+                graph[name].add((dst, t))
+                graph.setdefault(dst, set())  # adds the an empty set when its not inside the dict for the dst
+                graph[dst].add((name, t)) # Add reverse neighbor for dst
+                
+    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
+        for member in subclasses: 
+            graph[name] = list(graph[name]) # converts the elements in the graph back into lists for better accessibility for the algo
+    return graph
+
+for keys in name_dict():
+    print(keys)
+
 def build_adjacency_dict():
     graph = {}
     for subclasses in Station.__subclasses__():  # iterates thru the subclasses
-        for member in subclasses: # iterates thru the stations in the subclasses           
+        for member in subclasses: # iterates thru the stations in the subclasses     
             graph.setdefault(member.name, set()) # adds an empty set if it is not inside the dict 
             for travel in member.value.travel: # accesses the travel info of the stations
                 dst, t = travel.destination, travel.time # takes the destination, time
@@ -957,5 +972,4 @@ def build_adjacency_dict():
         for member in subclasses: 
             graph[member.name] = list(graph[member.name]) # converts the elements in the graph back into lists for better accessibility for the algo
     return graph
-
     
