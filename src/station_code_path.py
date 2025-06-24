@@ -33,6 +33,4 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
         
     route = ' --> '.join(routing[end] + [end])  # so now, it returns the pathing in station codes
         
-    return(f'Time to reach the station is {distance[end]} minutes and the route to take is {route}')
-
-print(MRT_travel_algo("EW1", "DT17"))
+    return(f'Time to reach the station including transfer timing is {distance[end]} minutes and path taken is {route}')

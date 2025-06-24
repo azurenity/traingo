@@ -37,6 +37,4 @@ def Name_travel_algo(source: str, end: str): # source will be the station name
         
     route = ' --> '.join(routing[end] + [end])  # so now, it returns the pathing in station codes
         
-    return(f'Time to reach the station is {distance[end]} minutes and the route to take is {route}')
-
-print(Name_travel_algo("Pasir Ris", "Downtown"))
+    return(f'Fastest time to reach the station is {distance[end]} minutes and the route to take is {route}')

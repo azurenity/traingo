@@ -175,9 +175,25 @@ class EWStation(Station):
     EW33 = StationInfo(name="Tuas Link",
         travel=[TravelInfo("EW32", 2)]
     )
-    CG = StationInfo(name="Tanah Merah", travel=[TravelInfo("EW4", 0), TravelInfo("CG1", 3) ])
-    CG1 = StationInfo(name="Expo", travel=[TravelInfo("CG2", 5), TravelInfo("CG", 3), TravelInfo("DT35", 3)])
-    CG2 = StationInfo(name="Changi Airport", travel=[TravelInfo("CG1", 5)])
+    CG = StationInfo(name="Tanah Merah",
+        travel=[
+            TravelInfo("EW4", 0),
+            TravelInfo("CG1", 3)
+            ]
+        )
+    CG1 = StationInfo(name="Expo",
+        travel=[
+            TravelInfo("CG2", 5),
+            TravelInfo("CG", 3),
+            TravelInfo("DT35", 3)
+            ]
+        )
+    CG2 = StationInfo(name="Changi Airport",
+        travel=[
+            TravelInfo("CG1", 5)
+            ]
+        )
+    
 class NSStation(Station):
     NS1 = StationInfo(
         name="Jurong East",
@@ -188,8 +204,20 @@ class NSStation(Station):
         ]
     )
 
-    NS2 = StationInfo(name="Bukit Batok", travel=[TravelInfo("NS1", 2), TravelInfo("NS3", 1)])
-    NS3 = StationInfo(name="Bukit Gombak", travel=[TravelInfo("NS2", 1), TravelInfo("NS4", 2)])
+    NS2 = StationInfo(
+        name="Bukit Batok",
+        travel=[
+            TravelInfo("NS1", 2),
+            TravelInfo("NS3", 1)
+            ]
+        )
+    NS3 = StationInfo(
+        name="Bukit Gombak",
+        travel=[
+            TravelInfo("NS2", 1),
+            TravelInfo("NS4", 2)
+            ]
+        )
     NS4 = StationInfo(
         name="Choa Chu Kang",
         travel=[
@@ -891,6 +919,8 @@ class BPStation(Station):
 
 
 
+
+
 def get_station_name_by_code(code):
     """
     Return the station name corresponding to a given station code.
@@ -898,7 +928,7 @@ def get_station_name_by_code(code):
     """
     for subclasses in Station.__subclasses__():
         for member in subclasses:
-            if code in str(member):
+            if code.lower() in str(member).lower():
                 return member.value.name
     return "Please give a correct Station code"
 
@@ -913,12 +943,12 @@ def get_codes_by_station_name(name):
         for member in subclasses:
             if member.value.name.lower() == name.lower():
                 temp.append(member.name)
-                print(temp)
                 
     if temp == []:
         return "Please give a correct Station name"
     else:
         return ', '.join(temp)
+
     
 def get_line(station_name):
     Flag = True
