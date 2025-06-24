@@ -1,7 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass
 from typing import List
-from src.map.error_codes import invalid_station_code, invalid_station_name
+from .error_codes import invalid_station_code, invalid_station_name
 
 @dataclass(frozen=True)
 class TravelInfo:
@@ -1003,4 +1003,37 @@ def build_adjacency_dict():
         for member in subclasses: 
             graph[member.name] = list(graph[member.name]) # converts the elements in the graph back into lists for better accessibility for the algo
     return graph
+
+
+## Process the input given
+def is_Valid(src, dst): # checks the src and the dst given
+    lst = [get_station_name_by_code(src), get_codes_by_station_name(src), get_station_name_by_code(dst), get_codes_by_station_name(dst)]
+    for i in range(len(lst)):
+        if lst[i] == invalid_station_code or lst[i] == invalid_station_name:
+            lst[i] = False
+        else:
+            lst[i] = True
+    if not lst[0] and not lst[1]:
+        return False
+    elif not lst[2] and not lst[3]:
+        return False
+    else:
+        return True
     
+def convert_stations(src, dst):
+    lst = [get_station_name_by_code(src), get_codes_by_station_name(src), get_station_name_by_code(dst), get_codes_by_station_name(dst)]
+    if not lst[0] == invalid_station_code: # meaning there is station code
+        lst[0] = get_station_name_by_code(src)
+        lst[1] = src
+    else:
+        lst[0] = src
+        lst[1] = get_codes_by_station_name(src)
+    
+    if not lst[2] == invalid_station_code:
+        lst[2] = get_station_name_by_code(dst)
+        lst[3] = dst
+    else:
+        lst[2] = dst
+        lst[3] = get_codes_by_station_name(dst)    
+    
+    return lst

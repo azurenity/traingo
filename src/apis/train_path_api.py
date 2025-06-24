@@ -3,8 +3,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # adding the traingo file as a pythonpath in sys.path - fixes the import problems
 from src.station_code_path import MRT_travel_algo
-from src.map.station import get_station_name_by_code, get_codes_by_station_name
-from src.map.error_codes import invalid_station_code, invalid_station_name, invalid_input
+from src.map.station import is_Valid, convert_stations
+from src.map.error_codes import invalid_input
 
 # Create a Blueprint for status-related APIs
 # The first argument is the Blueprint's name, often matching the module name.
@@ -24,34 +24,10 @@ def api_status():
     if src == dst:
         return jsonify(message='It will take 0 minutes as its the same station')
     
-    ## Process the input given
-    lst = [get_station_name_by_code(src), get_codes_by_station_name(src), get_station_name_by_code(dst), get_codes_by_station_name(dst)]
-    for i in range(len(lst)):
-        if lst[i] == invalid_station_code or lst[i] == invalid_station_name:
-            lst[i] = False
-        else:
-            lst[i] = True
-    print(lst)
-    if not lst[0] and not lst[1]:
-        return jsonify(message=invalid_input)
-    elif not lst[2] and not lst[3]:
-        return jsonify(message=invalid_input)
-  
-    if lst[0]: # meaning there is station code
-        lst[0] = get_station_name_by_code(src)
-        lst[1] = src
-    else:
-        lst[0] = src
-        lst[1] = get_codes_by_station_name(src)
-    
-    if lst[2]:
-        lst[2] = get_station_name_by_code(dst)
-        lst[3] = dst
-    else:
-        lst[2] = dst
-        lst[3] = get_codes_by_station_name(dst)
-    
-    print(lst)
+    if not is_Valid(src, dst):
+        return jsonify(message = invalid_input)
+        
+
     ## LOGIC
     
     # problems as of now > 
@@ -59,7 +35,7 @@ def api_status():
     # - both inputs has to be either a station code or a station name, need a checker to see if they are the same type OR convert both to the same type
 
     
-
+    lst = convert_stations(src, dst) # into format of name, code, name, code
     time = MRT_travel_algo(lst[1], lst[3])
     return jsonify(message=f'{time}')
 
