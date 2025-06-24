@@ -1,6 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass
 from typing import List
+from error_codes import invalid_station_code, invalid_station_name
 
 @dataclass(frozen=True)
 class TravelInfo:
@@ -930,7 +931,7 @@ def get_station_name_by_code(code):
         for member in subclasses:
             if code.lower() in str(member).lower():
                 return member.value.name
-    return "Please give a correct Station code"
+    return invalid_station_code
 
 
 def get_codes_by_station_name(name):
@@ -945,7 +946,7 @@ def get_codes_by_station_name(name):
                 temp.append(member.name)
                 
     if temp == []:
-        return "Please give a correct Station name"
+        return invalid_station_name
     else:
         return ', '.join(temp)
 

@@ -3,8 +3,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # adding the traingo file as a pythonpath in sys.path - fixes the import problems
 from src.station_code_path import MRT_travel_algo
-from src.station_name_path import Name_travel_algo  
 from src.map.station import get_station_name_by_code, get_codes_by_station_name
+from src.map.error_codes import invalid_station_code, invalid_station_name, invalid_input
 
 # Create a Blueprint for status-related APIs
 # The first argument is the Blueprint's name, often matching the module name.
@@ -27,15 +27,15 @@ def api_status():
     ## Process the input given
     lst = [get_station_name_by_code(src), get_codes_by_station_name(src), get_station_name_by_code(dst), get_codes_by_station_name(dst)]
     for i in range(len(lst)):
-        if lst[i] == "Please give a correct Station code" or lst[i] == "Please give a correct Station name":
+        if lst[i] == invalid_station_code or lst[i] == invalid_station_name:
             lst[i] = False
         else:
             lst[i] = True
     print(lst)
     if not lst[0] and not lst[1]:
-        return jsonify(message='Kindly input two valid station codes or station names')
+        return jsonify(message=invalid_input)
     elif not lst[2] and not lst[3]:
-        return jsonify(message='Kindly input two valid station codes or station names')
+        return jsonify(message=invalid_input)
   
     if lst[0]: # meaning there is station code
         lst[0] = get_station_name_by_code(src)
