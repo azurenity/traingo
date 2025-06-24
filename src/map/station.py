@@ -942,10 +942,12 @@ def name_dict():
     for subclasses in Station.__subclasses__():  # iterates thru the subclasses
         for member in subclasses: # iterates thru the stations in the subclasses
             name = get_station_name_by_code(member.name)     
-            graph.setdefault(name, set()) # adds an empty set if it is not inside the dict 
+            graph.setdefault(name, set()) # adds an empty set if it is not inside the dict
             for travel in member.value.travel: # accesses the travel info of the stations
-                dst, t = travel.destination, travel.time # takes the destination, time
-                graph[name].add((dst, t))
+                dst, t = get_station_name_by_code(travel.destination), travel.time # takes the destination, time
+                if dst == name:
+                    continue
+                graph[name].add((dst, t)) 
                 graph.setdefault(dst, set())  # adds the an empty set when its not inside the dict for the dst
                 graph[dst].add((name, t)) # Add reverse neighbor for dst
                 
@@ -954,8 +956,6 @@ def name_dict():
             graph[name] = list(graph[name]) # converts the elements in the graph back into lists for better accessibility for the algo
     return graph
 
-for keys in name_dict():
-    print(keys)
 
 def build_adjacency_dict():
     graph = {}

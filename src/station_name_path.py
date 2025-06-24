@@ -1,20 +1,21 @@
 from queue import PriorityQueue 
 import math
-from map.station import Station, name_dict, get_station_name_by_code, get_codes_by_station_name, get_line
+from src.map.station import Station, name_dict, get_station_name_by_code, get_codes_by_station_name, get_line
 
 # problem arises when im going from lets say: EW1 to CC19. It goes to DT9 then calculates the timing to change to the CC19
 # sol is to just create a secondary function that takes in the station name then outputs the timing
+# this function does NOT consider the interchanging time between the stations
 
 adj_dict = name_dict()
 
-def MRT_travel_algo(source: str, end: str): # source will be the station name
+def Name_travel_algo(source: str, end: str): # source will be the station name
     distance = {}
     routing = {}
     
     for subclasses in Station.__subclasses__():
         for member in subclasses:
-            distance[get_codes_by_station_name(member.name)] = math.inf 
-            routing[get_codes_by_station_name(member.name)] = []      
+            distance[get_station_name_by_code(member.name)] = math.inf 
+            routing[get_station_name_by_code(member.name)] = []      
             
     visited_nodes = set()
     distance[source] = 0 
@@ -26,10 +27,8 @@ def MRT_travel_algo(source: str, end: str): # source will be the station name
         if src in visited_nodes: # skips the src stations that has a current cost higher than the first occurance (i.e least) 
             continue
         visited_nodes.add(src)
-        
         for values in adj_dict[src]: # goes through the node's adjacency list to find out the distance between its neighbours
-            print(adj_dict)
-            print((time + values[1]))
+
             if (time + values[1]) < distance[values[0]]:
                 distance[values[0]] = (time + values[1])
                 routing[values[0]] = routing[src] + [src]
@@ -40,6 +39,4 @@ def MRT_travel_algo(source: str, end: str): # source will be the station name
         
     return(f'Time to reach the station is {distance[end]} minutes and the route to take is {route}')
 
-print(MRT_travel_algo("Pasir Ris", "Downtown"))
-
-##### WILL FIX THE NAME_DICT FUNCTION, IT HAS KEYS AS STATION CODES AND STATION NAMES
+print(Name_travel_algo("Pasir Ris", "Downtown"))

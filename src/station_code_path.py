@@ -35,5 +35,4 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
         
     return(f'Time to reach the station is {distance[end]} minutes and the route to take is {route}')
 
-# problem arises when im going from lets say: EW1 to CC19. It goes to DT9 then calculates the timing to change to the CC19
-# sol is to just create a secondary function that takes in the station name then outputs the timing
+print(MRT_travel_algo("EW1", "DT17"))
