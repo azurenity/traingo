@@ -1,5 +1,12 @@
 # Traingo
 
+## Usage of Traingo
+
+### User Experience
+
+The User will be able to input their initial location and the location that they want to go to.
+They will then be given the shortest path they can take and the corresponding travel time.
+
 ## Development
 
 ### Using UV
