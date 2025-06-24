@@ -1,6 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass
 from typing import List
+from .error_codes import invalid_station_code, invalid_station_name
 
 @dataclass(frozen=True)
 class TravelInfo:
@@ -175,9 +176,25 @@ class EWStation(Station):
     EW33 = StationInfo(name="Tuas Link",
         travel=[TravelInfo("EW32", 2)]
     )
-    CG = StationInfo(name="Tanah Merah", travel=[TravelInfo("EW4", 0), TravelInfo("CG1", 3) ])
-    CG1 = StationInfo(name="Expo", travel=[TravelInfo("CG2", 5), TravelInfo("CG", 3), TravelInfo("DT35", 3)])
-    CG2 = StationInfo(name="Changi Airport", travel=[TravelInfo("CG1", 5)])
+    CG = StationInfo(name="Tanah Merah",
+        travel=[
+            TravelInfo("EW4", 0),
+            TravelInfo("CG1", 3)
+            ]
+        )
+    CG1 = StationInfo(name="Expo",
+        travel=[
+            TravelInfo("CG2", 5),
+            TravelInfo("CG", 3),
+            TravelInfo("DT35", 3)
+            ]
+        )
+    CG2 = StationInfo(name="Changi Airport",
+        travel=[
+            TravelInfo("CG1", 5)
+            ]
+        )
+    
 class NSStation(Station):
     NS1 = StationInfo(
         name="Jurong East",
@@ -188,8 +205,20 @@ class NSStation(Station):
         ]
     )
 
-    NS2 = StationInfo(name="Bukit Batok", travel=[TravelInfo("NS1", 2), TravelInfo("NS3", 1)])
-    NS3 = StationInfo(name="Bukit Gombak", travel=[TravelInfo("NS2", 1), TravelInfo("NS4", 2)])
+    NS2 = StationInfo(
+        name="Bukit Batok",
+        travel=[
+            TravelInfo("NS1", 2),
+            TravelInfo("NS3", 1)
+            ]
+        )
+    NS3 = StationInfo(
+        name="Bukit Gombak",
+        travel=[
+            TravelInfo("NS2", 1),
+            TravelInfo("NS4", 2)
+            ]
+        )
     NS4 = StationInfo(
         name="Choa Chu Kang",
         travel=[
@@ -888,12 +917,9 @@ class BPStation(Station):
     BP12 = StationInfo(name="Jelapang", travel=[TravelInfo("BP11", 2), TravelInfo("BP13", 2)])
     BP13 = StationInfo(name="Senja", travel=[TravelInfo("BP12", 2), TravelInfo("BP6", 2)])
 
-# Access station name
-print(EWStation.EW1.value.name)  # Output: Pasir Ris
 
-# Print travel destinations and times
-for travel in EWStation.EW1.value.travel:
-    print(f"To {EWStation[travel.destination].value.name} in {travel.time} mins")
+
+
 
 
 def get_station_name_by_code(code):
@@ -903,9 +929,9 @@ def get_station_name_by_code(code):
     """
     for subclasses in Station.__subclasses__():
         for member in subclasses:
-            if code in str(member):
+            if code.lower() in str(member).lower():
                 return member.value.name
-    return "Please give a correct Station code"
+    return invalid_station_code
 
 
 def get_codes_by_station_name(name):
@@ -918,12 +944,12 @@ def get_codes_by_station_name(name):
         for member in subclasses:
             if member.value.name.lower() == name.lower():
                 temp.append(member.name)
-                print(temp)
                 
     if temp == []:
-        return "Please give a correct Station name"
+        return invalid_station_name
     else:
         return ', '.join(temp)
+
     
 def get_line(station_name):
     Flag = True
@@ -942,10 +968,30 @@ def get_line(station_name):
         
     return f"{ture} belongs to the following lines: {', '.join(temp)}" 
 
+def name_dict():
+    graph = {}
+    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
+        for member in subclasses: # iterates thru the stations in the subclasses
+            name = get_station_name_by_code(member.name)     
+            graph.setdefault(name, set()) # adds an empty set if it is not inside the dict
+            for travel in member.value.travel: # accesses the travel info of the stations
+                dst, t = get_station_name_by_code(travel.destination), travel.time # takes the destination, time
+                if dst == name:
+                    continue
+                graph[name].add((dst, t)) 
+                graph.setdefault(dst, set())  # adds the an empty set when its not inside the dict for the dst
+                graph[dst].add((name, t)) # Add reverse neighbor for dst
+                
+    for subclasses in Station.__subclasses__():  # iterates thru the subclasses
+        for member in subclasses: 
+            graph[name] = list(graph[name]) # converts the elements in the graph back into lists for better accessibility for the algo
+    return graph
+
+
 def build_adjacency_dict():
     graph = {}
     for subclasses in Station.__subclasses__():  # iterates thru the subclasses
-        for member in subclasses: # iterates thru the stations in the subclasses           
+        for member in subclasses: # iterates thru the stations in the subclasses     
             graph.setdefault(member.name, set()) # adds an empty set if it is not inside the dict 
             for travel in member.value.travel: # accesses the travel info of the stations
                 dst, t = travel.destination, travel.time # takes the destination, time
@@ -958,4 +1004,36 @@ def build_adjacency_dict():
             graph[member.name] = list(graph[member.name]) # converts the elements in the graph back into lists for better accessibility for the algo
     return graph
 
+
+## Process the input given
+def is_Valid(src, dst): # checks the src and the dst given
+    lst = [get_station_name_by_code(src), get_codes_by_station_name(src), get_station_name_by_code(dst), get_codes_by_station_name(dst)]
+    for i in range(len(lst)):
+        if lst[i] == invalid_station_code or lst[i] == invalid_station_name:
+            lst[i] = False
+        else:
+            lst[i] = True
+    if not lst[0] and not lst[1]:
+        return False
+    elif not lst[2] and not lst[3]:
+        return False
+    else:
+        return True
     
+def convert_stations(src, dst):
+    lst = [get_station_name_by_code(src), get_codes_by_station_name(src), get_station_name_by_code(dst), get_codes_by_station_name(dst)]
+    if not lst[0] == invalid_station_code: # meaning there is station code
+        lst[0] = get_station_name_by_code(src)
+        lst[1] = src
+    else:
+        lst[0] = src
+        lst[1] = get_codes_by_station_name(src)
+    
+    if not lst[2] == invalid_station_code:
+        lst[2] = get_station_name_by_code(dst)
+        lst[3] = dst
+    else:
+        lst[2] = dst
+        lst[3] = get_codes_by_station_name(dst)    
+    
+    return lst
