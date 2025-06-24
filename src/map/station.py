@@ -1,7 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass
 from typing import List
-from error_codes import invalid_station_code, invalid_station_name
+from src.map.error_codes import invalid_station_code, invalid_station_name
 
 @dataclass(frozen=True)
 class TravelInfo:
