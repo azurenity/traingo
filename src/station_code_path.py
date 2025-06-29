@@ -41,12 +41,9 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
 
     path.append(end)
     route = ' --> '.join(path)
-    #route = ' --> '.join(routing[end] + [end])  # so now, it returns the pathing in station codes
-# Next job is to change the way the route is outputted. 
-# 1. to check the routing list (by accessing the dict) and then outputting only when the lines change
-# a) can be done by checking the first two letters in the list then changing when it detects a change
-# b) save the station where it switches lines
-    
         
     return(f'Time to reach the station including transfer timing is {distance[end]} minutes and path taken is {route}')
 
+# Ok so the lines are now outputted accordingly (optionals)
+# 1. You can try to output the station names with the station code
+# 2. Time for transfer between stations if there is 
