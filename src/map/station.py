@@ -1027,13 +1027,21 @@ def convert_stations(src, dst):
         lst[1] = src
     else:
         lst[0] = src
-        lst[1] = get_codes_by_station_name(src)
+        if "," in get_codes_by_station_name(src):
+            temp = get_codes_by_station_name(src).split(',')
+            lst[1] = temp[0]
+        else:
+            lst[1] = get_codes_by_station_name(src)
     
     if not lst[2] == invalid_station_code:
         lst[2] = get_station_name_by_code(dst)
         lst[3] = dst
     else:
         lst[2] = dst
-        lst[3] = get_codes_by_station_name(dst)    
+        if "," in get_codes_by_station_name(dst):
+            temp = get_codes_by_station_name(dst).split(',')
+            lst[3] = temp[0]
+        else:
+            lst[3] = get_codes_by_station_name(dst)    
     
     return lst
