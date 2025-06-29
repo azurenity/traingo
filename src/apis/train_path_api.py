@@ -21,8 +21,7 @@ def api_status():
     src = str(request.args.get('from'))
     dst = str(request.args.get('to'))
     
-    if src == dst:
-        return jsonify(message='It will take 0 minutes as its the same station')
+
     
     if not is_Valid(src, dst):
         return jsonify(message = invalid_input)
@@ -32,10 +31,13 @@ def api_status():
     
     # problems as of now > 
     # - if the input received is not the same name (CAPITALISATION) of the one in the database, the code bricks
-    # - both inputs has to be either a station code or a station name, need a checker to see if they are the same type OR convert both to the same type
 
     
     lst = convert_stations(src, dst) # into format of name, code, name, code
+    if lst[1] == lst[3]:
+        return jsonify(message='It will take 0 minutes as its the same station')
+    # new problem ---> need to consider what if the dst/src is an interchange, cannot access two lines in the code
+    
     time = MRT_travel_algo(lst[1], lst[3])
     return jsonify(message=f'{time}')
 
