@@ -21,11 +21,8 @@ def api_status():
     src = str(request.args.get('from'))
     dst = str(request.args.get('to'))
     
-
-    
     if not is_Valid(src, dst):
         return jsonify(message = invalid_input)
-        
 
     ## LOGIC
     
