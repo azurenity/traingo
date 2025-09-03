@@ -1,5 +1,7 @@
 # Traingo
 
+This is a project that assists in commuter's daily travel by calculating the best route and time needed for the commuter to travel within Singapore's MRT network.
+
 ## Development
 
 ### Using UV
@@ -68,3 +70,7 @@ Run the batch script:
 ```batch
 run_tests.bat
 ```
+
+### To initialise the App (on Postman):
+
+Start the main.py in src. This will initialise the Flask server in the ip address mentioned. Afterwards you can interact with the api to output the travel data required.

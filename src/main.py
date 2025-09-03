@@ -7,8 +7,8 @@ from apis.train_path_api import train_bp as bp1
 from apis.get_lines_api import lines_bp as bp2
 
 app.register_blueprint(status_bp)
-app.register_blueprint(bp1)
 app.register_blueprint(bp2)
+app.register_blueprint(bp1)
 
 def main():
     """This function can be used if you want to run any setup before starting Flask.
