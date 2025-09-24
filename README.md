@@ -2,6 +2,14 @@
 
 This is a project that assists in commuter's daily travel by calculating the best route and time needed for the commuter to travel within Singapore's MRT network.
 
+## Usage of Traingo
+
+### User Experience
+
+The User will be able to input their initial location and the location that they want to go to.
+They will then be given the shortest path they can take and the corresponding travel time.
+
+
 ## Development
 
 ### Using UV
