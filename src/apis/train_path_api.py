@@ -29,7 +29,6 @@ def api_status():
     lst = convert_stations(src, dst) # into format of name, code, name, code
     if lst[1] == lst[3]:
         return jsonify(message='It will take 0 minutes as its the same station') # AVOIDS CASES WHERE INTERCHANGES BREAKS THE CODE
-
     
     time = MRT_travel_algo(lst[1], lst[3])
     return jsonify(message=f'{time}')

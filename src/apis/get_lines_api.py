@@ -3,6 +3,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # adding the traingo file as a pythonpath in sys.path - fixes the import problems
 from src.map.station import get_line
+from src.map.error_codes import invalid_station_name
 
 
 lines_bp = Blueprint('get_lines_api', __name__, url_prefix='/api/v1')
@@ -18,7 +19,7 @@ def api_lines():
     ## LOGIC
     lines = get_line(stn)
     print(lines)
+    if lines == invalid_station_name:
+        return jsonify(message = f'{lines}')
+        
     return jsonify(message=f'Station has the following lines: {lines}')
-
-
-# problem as theres too many apis and the program will only execute one
