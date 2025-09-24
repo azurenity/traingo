@@ -9,7 +9,6 @@ This is a project that assists in commuter's daily travel by calculating the bes
 The User will be able to input their initial location and the location that they want to go to.
 They will then be given the shortest path they can take and the corresponding travel time.
 
-
 ## Development
 
 ### Using UV
