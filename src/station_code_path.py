@@ -1,17 +1,17 @@
 from queue import PriorityQueue 
 import math
-from src.map.station import Station, build_adjacency_dict, get_station_name_by_code, get_codes_by_station_name, get_line
+from src.map.station import MRT_stations
+from src.map.functions import build_adjacency_dict
 
 adj_dict = build_adjacency_dict()
 
-def MRT_travel_algo(source: str, end: str): # source will be the station code
+def MRT_travel_algo(source: str, end: str): # source and end are station codes
     distance = {}
     routing = {}
     
-    for subclasses in Station.__subclasses__():
-        for member in subclasses:
-            distance[member.name] = math.inf 
-            routing[member.name] = []      
+    for code in MRT_stations:
+        distance[code] = math.inf 
+        routing[code] = []      
             
     visited_nodes = set()
     distance[source] = 0 
@@ -30,7 +30,16 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
                 routing[values[0]] = routing[src] + [src]
                 placeholder.put((time + values[1], values[0]))
 
-    
+    route = ' --> '.join(routing[end] + [end])
+      
+    return(f'Time to reach the station including transfer timing is {distance[end]} minutes and path taken is {route}')
+
+""" if you want to only return the stations that are of focus (interchanges)
+# Next job is to change the way the route is outputted. 
+# 1. to check the routing list (by accessing the dict) and then outputting only when the lines change
+# a) can be done by checking the first two letters in the list then changing when it detects a change
+# b) save the station where it switches lines
+
     temp = routing[end] # takes the list from the dictionary
     path = [temp[0]]
     line = temp[0][:1]
@@ -38,12 +47,4 @@ def MRT_travel_algo(source: str, end: str): # source will be the station code
         if line not in temp[i]:
             line = temp[i][:1]
             path.append(temp[i]) # change line and add the station
-
-    path.append(end)
-    route = ' --> '.join(path)
-        
-    return(f'Time to reach the station including transfer timing is {distance[end]} minutes and path taken is {route}')
-
-# Ok so the lines are now outputted accordingly (optionals)
-# 1. You can try to output the station names with the station code
-# 2. Time for transfer between stations if there is 
+"""

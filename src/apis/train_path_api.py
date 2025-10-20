@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # adding the traingo file as a pythonpath in sys.path - fixes the import problems
 from src.station_code_path import MRT_travel_algo
-from src.map.station import is_Valid, convert_stations
+from src.map.functions import is_Valid, convert_stations
 from src.map.error_codes import invalid_input
 
 # Create a Blueprint for status-related APIs
@@ -26,6 +26,9 @@ def api_status():
 
     ## LOGIC
     
+    # problems as of now > 
+    # - if the input received is not the same name (CAPITALISATION) of the one in the database, the code bricks
+
     lst = convert_stations(src, dst) # into format of name, code, name, code
     if lst[1] == lst[3]:
         return jsonify(message='It will take 0 minutes as its the same station') # AVOIDS CASES WHERE INTERCHANGES BREAKS THE CODE
