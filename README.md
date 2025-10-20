@@ -81,3 +81,15 @@ run_tests.bat
 ### To initialise the App (on Postman):
 
 Start the main.py in src. This will initialise the Flask server in the ip address mentioned. Afterwards you can interact with the api to output the travel data required.
+
+### Note about tests and imports
+
+Pytest imports test modules during collection. Some tests and the application use imports like `import src.main` and `import apis.status_api`. To avoid ModuleNotFoundError during collection we include `tests/conftest.py`, which adds the project root and `src/` directory to `sys.path` for the test session.
+
+This is a lightweight, cross-platform way to make the test suite run without requiring an editable install. If you prefer not to rely on `conftest.py`, you can instead install the package in editable mode:
+
+```bash
+python -m pip install -e .[dev]
+```
+
+or change application imports to be fully package-qualified (for example `from src.apis import status_api`).

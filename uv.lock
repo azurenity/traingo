@@ -148,17 +148,16 @@ dependencies = [
     { name = "flask" },
 ]
 
-[package.optional-dependencies]
-test = [
+[package.dev-dependencies]
+dev = [
     { name = "pytest" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "flask", specifier = ">=3.1.1" },
-    { name = "pytest", marker = "extra == 'test'", specifier = ">=8.0.0" },
-]
-provides-extras = ["test"]
+requires-dist = [{ name = "flask", specifier = ">=3.1.1" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.3.5" }]
 
 [[package]]
 name = "werkzeug"
