@@ -1,23 +1,25 @@
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-from src import MRT_travel_algo 
+import src.station_path as station_path
+from src.station_path import MRT_travel_algo 
 import unittest
 
-class TestStringMethods(unittest.TestCase):
+class TestMRTAlgorithm(unittest.TestCase):
+    def test_shortest_path_algo(self):
+        # Arrange: small deterministic graph
+        station_path.MRT_stations = ['A', 'B', 'C']
+        station_path.adj_dict = {
+            'A': [('B', 5), ('C', 10)],
+            'B': [('C', 3)],
+            'C': []
+        }
 
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
+        # Act
+        result = MRT_travel_algo('A', 'C')
 
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
-
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+        # Assert
+        expected = 'Time to reach the station including transfer timing is 8 minutes and path taken is A --> B --> C'
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
