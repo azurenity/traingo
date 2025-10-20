@@ -23,7 +23,6 @@ def api_status():
     
     if not is_Valid(src, dst):
         return jsonify(message = invalid_input)
-        
 
     ## LOGIC
     
@@ -32,13 +31,7 @@ def api_status():
 
     lst = convert_stations(src, dst) # into format of name, code, name, code
     if lst[1] == lst[3]:
-        return jsonify(message='It will take 0 minutes as its the same station')
-    # new problem ---> need to consider what if the dst/src is an interchange, cannot access two lines in the code
+        return jsonify(message='It will take 0 minutes as its the same station') # AVOIDS CASES WHERE INTERCHANGES BREAKS THE CODE
     
     time = MRT_travel_algo(lst[1], lst[3])
     return jsonify(message=f'{time}')
-
-# You could add more routes related to 'status' in this file, for example:
-# @status_bp.route("/status/details", methods=['GET'])
-# def api_status_details():
-#     return jsonify(status="OK", details="Some detailed status...")
