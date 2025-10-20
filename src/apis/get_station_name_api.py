@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # adding the traingo file as a pythonpath in sys.path - fixes the import problems
-from src.map.station import get_station_name_by_code
+from src.map.functions import get_station_name_by_code
 from src.map.error_codes import invalid_station_code
 
 
